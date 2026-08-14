@@ -1,0 +1,86 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FALTAS</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .fullscreen-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .title {
+            color: white;
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 50px;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .big-button {
+            display: block;
+            text-decoration: none;
+            background: white;
+            color: #667eea;
+            padding: 25px 30px;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .big-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+        }
+
+        .big-button:active {
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 36px;
+                margin-bottom: 40px;
+            }
+
+            .big-button {
+                padding: 30px 25px;
+                font-size: 28px;
+            }
+
+            .button-container {
+                gap: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="fullscreen-container">
+        <h1 class="title">FALTAS</h1>
+        <div class="button-container">
+            <a href="main" class="big-button">📋 Ver Faltas</a>
+            <a href="novo.html" class="big-button">➕ Nova Falta</a>
+        </div>
+    </div>
+</body>
+</html>
