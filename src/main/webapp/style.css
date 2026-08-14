@@ -1,0 +1,147 @@
+@charset "utf-8";
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+body {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    padding: 10px;
+}
+
+h1{
+    color: #66ddff;
+    font-size: 24px;
+}
+
+.Botao1{
+    text-decoration: none;
+    background: #66bbff;
+    padding: 12px 20px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 8px;
+    border: 0;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.Botao2{
+    text-decoration: none;
+    background: #d51213;
+    padding: 12px 20px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+.Caixa1 {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #66bbff;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.Caixa2 {
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #66bbff;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+#Caixa3 {
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ff0000;
+    font-size: 16px;
+}
+
+#tabela {
+    margin-top: 30px;
+    border-collapse: collapse;
+    width: 100%;
+    overflow-x: auto;
+}
+
+#tabela th {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+    background-color: #66bbff;
+    color: #fff;
+    font-size: 14px;
+}
+
+#tabela td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    font-size: 14px;
+}
+
+#tabela img {
+    max-width: 150px;
+    height: auto;
+}
+
+/* Responsive styles for mobile */
+@media (max-width: 768px) {
+    body {
+        font-size: 22px;
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 36px;
+        margin-bottom: 30px;
+    }
+
+    .Botao1, .Botao2 {
+        padding: 20px 30px;
+        font-size: 22px;
+        margin: 10px 0;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .Caixa1, .Caixa2, #Caixa3 {
+        padding: 20px;
+        font-size: 22px;
+        height: 60px;
+    }
+
+    textarea.Caixa1 {
+        height: auto;
+        min-height: 100px;
+    }
+
+    #tabela {
+        font-size: 20px;
+        display: block;
+        overflow-x: auto;
+    }
+
+    #tabela th, #tabela td {
+        padding: 20px;
+        font-size: 20px;
+    }
+
+    #tabela img {
+        max-width: 250px;
+        height: auto;
+    }
+
+    table {
+        width: 100%;
+        min-width: 700px;
+    }
+}
+
+
+
+

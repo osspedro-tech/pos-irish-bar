@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: pos-irish-bar
+    env: java
+    buildCommand: mvn clean package
+    startCommand: java -jar target/dependency/webapp-runner.jar target/POS.war
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: pos-db
+          property: connectionString
+databases:
+  - name: pos-db
+    databaseName: dbagenda2
+    user: pos_user
