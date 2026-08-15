@@ -4,17 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="1a999fe0-73e7-493a-a6b6-730216ad6417" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
+=======
+    <list default="true" id="1a999fe0-73e7-493a-a6b6-730216ad6417" name="Changes" comment="" />
+>>>>>>> 5ccf6a7780d269403cf12a6b1e28a42bc6b23130
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+<<<<<<< HEAD
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+=======
+>>>>>>> 5ccf6a7780d269403cf12a6b1e28a42bc6b23130
   <component name="LogFilters">
     <option name="FILTER_ERRORS" value="false" />
     <option name="FILTER_WARNINGS" value="false" />
@@ -34,15 +41,21 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
+<<<<<<< HEAD
     "Maven.POS [compile].executor": "Run",
     "Maven.POS [package].executor": "Run",
+=======
+>>>>>>> 5ccf6a7780d269403cf12a6b1e28a42bc6b23130
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "Smart Tomcat.TOM 10.executor": "Run",
     "Smart Tomcat.Tomcat: POS.executor": "Run",
     "codeWithMe.voiceChat.enabledByDefault": "false",
+<<<<<<< HEAD
     "git-widget-placeholder": "master",
+=======
+>>>>>>> 5ccf6a7780d269403cf12a6b1e28a42bc6b23130
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "D:/2027/IRISH/POS",
     "nodejs_package_manager_path": "npm",
