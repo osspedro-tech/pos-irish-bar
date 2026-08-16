@@ -240,7 +240,7 @@
                         <td><%=lista.get(i).getNome()%></td>
                         <td class="time-counter" data-timestamp="<%=lista.get(i).getDataCriacao() != null ? lista.get(i).getDataCriacao().getTime() : ""%>">Carregando...</td>
                         <td>
-                            <a href="javascript: marcarEliminar(<%=lista.get(i).getId() %>)" class="big-button big-button-red" id="btn-eliminar-<%=lista.get(i).getId()%>">Eliminar</a>
+                            <a href="javascript: confirmar(<%=lista.get(i).getId() %>)" class="big-button big-button-red" id="btn-eliminar-<%=lista.get(i).getId()%>">Eliminar</a>
                             <a href="javascript: cancelarEliminar(<%=lista.get(i).getId() %>)" class="big-button" id="btn-cancelar-<%=lista.get(i).getId()%>" style="display: none; background: #666; color: white;">Cancelar</a>
                         </td>
                     </tr>
@@ -260,7 +260,7 @@
                         <h3><%=lista.get(i).getNome()%></h3>
                         <div class="time-counter" data-timestamp="<%=lista.get(i).getDataCriacao() != null ? lista.get(i).getDataCriacao().getTime() : ""%>" style="font-weight:bold; padding:5px; border-radius:8px; text-align:center; margin:5px 0; background:white; color:#006B3F;">Carregando...</div>
                         <div class="buttons">
-                            <a href="javascript: marcarEliminarMobile(<%=lista.get(i).getId() %>)" class="big-button big-button-red" id="btn-eliminar-mobile-<%=lista.get(i).getId()%>">Eliminar</a>
+                            <a href="javascript: confirmarMobile(<%=lista.get(i).getId() %>)" class="big-button big-button-red" id="btn-eliminar-mobile-<%=lista.get(i).getId()%>">Eliminar</a>
                             <a href="javascript: cancelarEliminarMobile(<%=lista.get(i).getId() %>)" class="big-button" id="btn-cancelar-mobile-<%=lista.get(i).getId()%>" style="display: none; background: #666; color: white;">Cancelar</a>
                         </div>
                     </div>
@@ -425,7 +425,7 @@
 
         card.style.textDecoration = 'line-through';
         card.style.opacity = '0.5';
-        btnEliminar.style.display = 'none';
+        btnEliminar.textContent = 'Eliminar definitivamente';
         btnCancelar.style.display = 'inline-block';
     }
 
@@ -436,8 +436,17 @@
 
         card.style.textDecoration = 'none';
         card.style.opacity = '1';
-        btnEliminar.style.display = 'inline-block';
+        btnEliminar.textContent = 'Eliminar';
         btnCancelar.style.display = 'none';
+    }
+
+    function confirmarMobile(id) {
+        var card = document.getElementById('card-' + id);
+        if (card.style.textDecoration === 'line-through') {
+            window.location.href = 'delete?id=' + id;
+        } else {
+            marcarEliminarMobile(id);
+        }
     }
 </script>
 </body>
