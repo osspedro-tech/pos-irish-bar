@@ -2,6 +2,7 @@
 <%@ page import="Outro.model.JavaBeans"%>
 <%@ page import="java.util.ArrayList"%>
 <% ArrayList<JavaBeans> lista = (ArrayList<JavaBeans>) request.getAttribute("produtos"); %>
+<% System.out.println("Lista no JSP: " + (lista != null ? lista.size() : "null")); %>
 
 <!DOCTYPE html>
 <html lang="pt-pt">
@@ -57,6 +58,8 @@
         .big-button-red {
             background: #d51213;
             color: white;
+            padding: 8px 15px;
+            font-size: 14px;
         }
 
         #tabela {
@@ -71,23 +74,25 @@
 
         #tabela th {
             border: 1px solid #ddd;
-            padding: 20px;
+            padding: 10px;
             text-align: left;
             background-color: #667eea;
             color: white;
-            font-size: 18px;
+            font-size: 16px;
         }
 
         #tabela td {
             border: 1px solid #ddd;
-            padding: 20px;
-            font-size: 18px;
+            padding: 10px;
+            font-size: 16px;
+            vertical-align: middle;
         }
 
         #tabela img {
-            max-width: 200px;
-            height: auto;
-            border-radius: 10px;
+            max-width: 150px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
         }
 
         @media (max-width: 768px) {
@@ -117,34 +122,41 @@
             .product-card {
                 background: white;
                 border-radius: 15px;
-                padding: 20px;
+                padding: 15px;
                 box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
             }
 
             .product-card img {
                 max-width: 100%;
-                height: auto;
+                height: 200px;
+                object-fit: cover;
                 border-radius: 10px;
-                margin-bottom: 15px;
+                margin-bottom: 10px;
             }
 
             .product-card h3 {
-                margin: 0 0 10px 0;
-                font-size: 24px;
+                margin: 0 0 5px 0;
+                font-size: 20px;
                 color: #667eea;
+                text-align: center;
             }
 
             .product-card p {
-                margin: 5px 0;
-                font-size: 18px;
+                margin: 2px 0;
+                font-size: 14px;
+                text-align: center;
             }
 
             .product-card .status {
                 font-weight: bold;
-                padding: 10px;
+                padding: 5px;
                 border-radius: 8px;
                 text-align: center;
-                margin: 15px 0;
+                margin: 10px 0;
+                font-size: 14px;
             }
 
             .product-card .status.pendente {
