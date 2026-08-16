@@ -140,7 +140,7 @@ public class DAO {
         try{
             Connection con = conetar();
             PreparedStatement pst = con.prepareStatement(read2);
-            pst.setString(1, produto.getId());
+            pst.setInt(1, Integer.parseInt(produto.getId()));
             ResultSet rs = pst.executeQuery();
             while (rs.next()){
                 produto.setId(rs.getString("id"));
@@ -162,7 +162,7 @@ public class DAO {
             Connection con = conetar();
             PreparedStatement pst = con.prepareStatement(update);
             pst.setString(1, produto.getStatus());
-            pst.setString(2, produto.getId());
+            pst.setInt(2, Integer.parseInt(produto.getId()));
             pst.executeUpdate();
             con.close();
         } catch (Exception e) {
@@ -176,7 +176,7 @@ public class DAO {
         try{
             Connection con = conetar();
             PreparedStatement pst = con.prepareStatement(delete);
-            pst.setString(1, produto.getId());
+            pst.setInt(1, Integer.parseInt(produto.getId()));
             pst.executeUpdate();
             con.close();
         } catch (Exception e) {
