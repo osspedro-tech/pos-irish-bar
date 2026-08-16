@@ -26,6 +26,30 @@
             margin-bottom: 15px;
             text-align: center;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .sound-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .sound-toggle input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .sound-icon {
+            font-size: 24px;
         }
 
         .content-container {
@@ -185,13 +209,17 @@
 </head>
 <body>
     <div class="fullscreen-container">
-        <h1 class="title">FALTAS</h1>
+        <h1 class="title">
+            FALTAS
+            <label class="sound-toggle">
+                <span class="sound-icon">🔊</span>
+                <input type="checkbox" id="chkSemSom" checked>
+                <span>Sem som</span>
+            </label>
+        </h1>
         <div class="content-container">
             <div style="text-align: center; margin-bottom: 15px;">
                 <a href="novo.html" class="big-button">➕ Nova Falta</a>
-                <label style="margin-left: 15px; color: white; font-weight: bold; font-size: 18px; cursor: pointer;">
-                    <input type="checkbox" id="chkSemSom" checked style="width: 20px; height: 20px; vertical-align: middle;"> Sem som
-                </label>
             </div>
             <table id="tabela">
                 <thead>
