@@ -35,21 +35,21 @@
         .sound-toggle {
             display: flex;
             align-items: center;
-            gap: 8px;
-            color: white;
-            font-weight: bold;
-            font-size: 18px;
             cursor: pointer;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            justify-content: center;
+            transition: background 0.3s;
         }
 
-        .sound-toggle input {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
+        .sound-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
 
         .sound-icon {
-            font-size: 24px;
+            font-size: 28px;
         }
 
         .content-container {
@@ -211,11 +211,9 @@
     <div class="fullscreen-container">
         <h1 class="title">
             FALTAS
-            <label class="sound-toggle">
-                <span class="sound-icon">🔊</span>
-                <input type="checkbox" id="chkSemSom" checked>
-                <span>Sem som</span>
-            </label>
+            <div class="sound-toggle" id="soundToggle">
+                <span class="sound-icon" id="soundIcon">🔊</span>
+            </div>
         </h1>
         <div class="content-container">
             <div style="text-align: center; margin-bottom: 15px;">
@@ -295,16 +293,20 @@
 
     // Carrega e grava a opção do som no telemóvel
     document.addEventListener("DOMContentLoaded", function() {
-        var chkSemSom = document.getElementById("chkSemSom");
-        if (chkSemSom) {
+        var soundToggle = document.getElementById("soundToggle");
+        var soundIcon = document.getElementById("soundIcon");
+
+        if (soundToggle && soundIcon) {
             var estadoGuardado = localStorage.getItem("agenda_sem_som");
+            var semSom = estadoGuardado === "true";
 
-            if (estadoGuardado !== null) {
-                chkSemSom.checked = (estadoGuardado === "true");
-            }
+            // Update icon based on saved state
+            soundIcon.textContent = semSom ? "🔇" : "🔊";
 
-            chkSemSom.addEventListener("change", function() {
-                localStorage.setItem("agenda_sem_som", this.checked);
+            soundToggle.addEventListener("click", function() {
+                semSom = !semSom;
+                localStorage.setItem("agenda_sem_som", semSom);
+                soundIcon.textContent = semSom ? "🔇" : "🔊";
             });
         }
 
@@ -312,8 +314,9 @@
     });
 
     function tocarSomNovoProduto() {
-        var semSom = document.getElementById("chkSemSom");
-        if (semSom && !semSom.checked) {
+        var estadoGuardado = localStorage.getItem("agenda_sem_som");
+        var semSom = estadoGuardado === "true";
+        if (!semSom) {
             var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             var osc = audioCtx.createOscillator();
             osc.type = "sine";
