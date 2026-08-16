@@ -38,6 +38,12 @@
       <groupId>com.heroku</groupId>
       <artifactId>webapp-runner</artifactId>
       <version>9.0.68.0</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.tomcat.embed</groupId>
+          <artifactId>tomcat-embed-el</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
   <build>
