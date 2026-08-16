@@ -51,6 +51,8 @@ public class DAO {
         String create = "insert into produtos(nome, descricao, foto, status) values (?,?,?,?)";
         try{
             Connection con = conetar();
+            System.out.println("Conexão para insert: " + (con != null));
+            System.out.println("Inserindo produto: " + produto.getNome());
             PreparedStatement pst = con.prepareStatement(create);
             pst.setString(1, produto.getNome());
             pst.setString(2, produto.getDescricao());
@@ -58,8 +60,10 @@ public class DAO {
             pst.setString(4, produto.getStatus());
             pst.executeUpdate();
             con.close();
+            System.out.println("Produto inserido com sucesso");
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Erro ao inserir produto: " + e);
+            e.printStackTrace();
         }
     }
     
@@ -90,9 +94,12 @@ public class DAO {
         String read = "select * from produtos order by id desc";
         try{
             Connection con = conetar();
+            System.out.println("Conexão estabelecida: " + (con != null));
             PreparedStatement pst = con.prepareStatement(read);
             ResultSet rs = pst.executeQuery();
+            int count = 0;
             while(rs.next()){
+                count++;
                 String id=rs.getString("id");
                 String nome=rs.getString("nome");
                 String descricao=rs.getString("descricao");
@@ -100,11 +107,14 @@ public class DAO {
                 String status=rs.getString("status");
                 Timestamp dataCriacao = rs.getTimestamp("data_criacao");
                 produtos.add(new JavaBeans(id, nome, descricao, foto, status, dataCriacao));
+                System.out.println("Produto encontrado: " + nome);
             }
             con.close();
+            System.out.println("Total de produtos encontrados: " + count);
             return produtos;
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Erro ao listar produtos: " + e);
+            e.printStackTrace();
             return null;
         }
     }
