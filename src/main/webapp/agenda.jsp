@@ -277,8 +277,8 @@
 
         counters.forEach(function(counter) {
             var timestamp = counter.getAttribute('data-timestamp');
-            if (timestamp) {
-                var diff = now - timestamp;
+            if (timestamp && timestamp !== '') {
+                var diff = now - parseInt(timestamp);
                 var seconds = Math.floor((diff / 1000) % 60);
                 var minutes = Math.floor((diff / (1000 * 60)) % 60);
                 var hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
@@ -288,9 +288,11 @@
                 if (days > 0) {
                     timeText = days + 'd ' + hours + 'h ' + minutes + 'm';
                 } else if (hours > 0) {
-                    timeText = hours + 'h ' + minutes + 'm ' + seconds + 's';
+                    timeText = hours + 'h ' + minutes + 'm';
+                } else if (minutes >= 1) {
+                    timeText = minutes + 'm';
                 } else {
-                    timeText = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+                    timeText = seconds + 's';
                 }
 
                 counter.textContent = timeText;
@@ -313,16 +315,28 @@
                 var currentTableBody = document.querySelector('#tabela tbody');
 
                 if (newTableBody && currentTableBody) {
-                    currentTableBody.innerHTML = newTableBody.innerHTML;
-                    // Reattach event listeners to the new buttons
-                    reattachEventListeners();
+                    // Check if there are new items
+                    var currentRows = currentTableBody.querySelectorAll('tr');
+                    var newRows = newTableBody.querySelectorAll('tr');
+
+                    if (newRows.length !== currentRows.length) {
+                        // Only update if number of items changed
+                        currentTableBody.innerHTML = newTableBody.innerHTML;
+                        // Reattach event listeners to the new buttons
+                        reattachEventListeners();
+                    }
                 }
 
                 // Also update mobile cards
                 var newMobileCards = doc.querySelector('.mobile-cards');
                 var currentMobileCards = document.querySelector('.mobile-cards');
                 if (newMobileCards && currentMobileCards) {
-                    currentMobileCards.innerHTML = newMobileCards.innerHTML;
+                    var currentCards = currentMobileCards.querySelectorAll('.product-card');
+                    var newCards = newMobileCards.querySelectorAll('.product-card');
+
+                    if (newCards.length !== currentCards.length) {
+                        currentMobileCards.innerHTML = newMobileCards.innerHTML;
+                    }
                 }
             })
             .catch(error => console.error('Erro ao atualizar lista:', error));
@@ -377,7 +391,7 @@
 
         row.style.textDecoration = 'line-through';
         row.style.opacity = '0.5';
-        btnEliminar.style.display = 'none';
+        btnEliminar.textContent = 'Eliminar definitivamente';
         btnCancelar.style.display = 'inline-block';
     }
 
@@ -388,7 +402,7 @@
 
         row.style.textDecoration = 'none';
         row.style.opacity = '1';
-        btnEliminar.style.display = 'inline-block';
+        btnEliminar.textContent = 'Eliminar';
         btnCancelar.style.display = 'none';
     }
 
