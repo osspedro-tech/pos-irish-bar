@@ -22,8 +22,23 @@ public class DAO {
             String dbUrl = System.getenv("DATABASE_URL");
             if (dbUrl != null && !dbUrl.isEmpty()) {
                 // PostgreSQL for Render.com
+                // Convert Render.com URL format to JDBC format
+                // Render: postgresql://user:pass@host:port/db
+                // JDBC: jdbc:postgresql://host:port/db?user=user&password=pass
+                String jdbcUrl = dbUrl.replace("postgresql://", "jdbc:postgresql://");
+                // Parse URL to extract credentials and build proper JDBC URL
+                java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("jdbc:postgresql://([^:]+):([^@]+)@([^/]+)/(.+)");
+                java.util.regex.Matcher matcher = pattern.matcher(jdbcUrl);
+                if (matcher.find()) {
+                    String username = matcher.group(1);
+                    String password = matcher.group(2);
+                    String host = matcher.group(3);
+                    String database = matcher.group(4);
+                    jdbcUrl = "jdbc:postgresql://" + host + "/" + database + "?user=" + username + "&password=" + password;
+                }
+                System.out.println("JDBC URL: " + jdbcUrl);
                 Class.forName("org.postgresql.Driver");
-                con = DriverManager.getConnection(dbUrl);
+                con = DriverManager.getConnection(jdbcUrl);
             } else {
                 // MySQL for local development
                 Class.forName(driver);
@@ -31,7 +46,8 @@ public class DAO {
             }
             return con;
         } catch (Exception e){
-            System.out.println(e);
+            System.out.println("Erro ao conectar: " + e);
+            e.printStackTrace();
             return null;
         }
     }
