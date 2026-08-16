@@ -28,6 +28,53 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 107, 63, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .loading-spinner {
+            width: 80px;
+            height: 80px;
+            border: 8px solid rgba(255, 255, 255, 0.3);
+            border-top: 8px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .loading-percentage {
+            color: white;
+            font-size: 48px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
         .form-container {
             width: 100%;
             max-width: 500px;
@@ -132,6 +179,12 @@
     </style>
 </head>
 <body>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">A guardar falta...</div>
+        <div class="loading-percentage" id="loadingPercentage">0%</div>
+    </div>
+
     <div class="fullscreen-container">
         <h1 class="title">Nova Falta</h1>
         <div style="margin-bottom: 15px; display: flex; justify-content: center;">
@@ -212,6 +265,25 @@
                 alert("Por favor, cole uma URL de imagem primeiro");
             }
         }
+
+        // Handle form submission with loading animation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            var loadingOverlay = document.getElementById('loadingOverlay');
+            var loadingPercentage = document.getElementById('loadingPercentage');
+            var percentage = 0;
+
+            loadingOverlay.classList.add('active');
+
+            // Simulate loading percentage
+            var interval = setInterval(function() {
+                percentage += Math.floor(Math.random() * 15) + 5;
+                if (percentage >= 100) {
+                    percentage = 100;
+                    clearInterval(interval);
+                }
+                loadingPercentage.textContent = percentage + '%';
+            }, 200);
+        });
     </script>
 </body>
 </html>

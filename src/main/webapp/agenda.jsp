@@ -23,7 +23,7 @@
             color: white;
             font-size: 48px;
             font-weight: bold;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
             text-align: center;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
@@ -38,8 +38,8 @@
             text-decoration: none;
             background: white;
             color: #009B4D;
-            padding: 20px 30px;
-            font-size: 22px;
+            padding: 12px 20px;
+            font-size: 18px;
             font-weight: bold;
             border-radius: 15px;
             text-align: center;
@@ -187,7 +187,7 @@
     <div class="fullscreen-container">
         <h1 class="title">FALTAS</h1>
         <div class="content-container">
-            <div style="text-align: center; margin-bottom: 30px;">
+            <div style="text-align: center; margin-bottom: 15px;">
                 <a href="novo.html" class="big-button">➕ Nova Falta</a>
                 <label style="margin-left: 15px; color: white; font-weight: bold; font-size: 18px; cursor: pointer;">
                     <input type="checkbox" id="chkSemSom" checked style="width: 20px; height: 20px; vertical-align: middle;"> Sem som
