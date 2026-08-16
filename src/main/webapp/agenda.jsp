@@ -60,16 +60,47 @@
             display: none;
         }
 
+        .no-photo td {
+            padding: 4px !important;
+            vertical-align: middle !important;
+        }
+
+        .no-photo .big-button {
+            padding: 8px 12px !important;
+            font-size: 14px !important;
+        }
+
         .product-card.no-photo img {
             display: none;
         }
 
         .product-card.no-photo {
-            padding: 10px;
+            padding: 5px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
         }
 
         .product-card.no-photo h3 {
-            margin: 5px 0;
+            margin: 0;
+            flex: 1;
+            font-size: 16px;
+        }
+
+        .product-card.no-photo .time-counter {
+            margin: 0;
+            padding: 3px 8px !important;
+            font-size: 14px !important;
+        }
+
+        .product-card.no-photo .buttons {
+            margin: 0;
+        }
+
+        .product-card.no-photo .big-button {
+            padding: 8px 12px !important;
+            font-size: 14px !important;
         }
 
         .content-container {
