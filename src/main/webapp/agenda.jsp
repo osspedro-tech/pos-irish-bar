@@ -52,6 +52,27 @@
             font-size: 28px;
         }
 
+        .vibration-toggle {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            justify-content: center;
+            transition: background 0.3s;
+            margin-left: 10px;
+        }
+
+        .vibration-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .vibration-icon {
+            font-size: 28px;
+        }
+
         .no-photo .photo-cell {
             display: none;
         }
@@ -265,6 +286,9 @@
             <div class="sound-toggle" id="soundToggle">
                 <span class="sound-icon" id="soundIcon">🔊</span>
             </div>
+            <div class="vibration-toggle" id="vibrationToggle">
+                <span class="vibration-icon" id="vibrationIcon">📳</span>
+            </div>
         </h1>
         <div class="content-container">
             <div style="text-align: center; margin-bottom: 15px;">
@@ -375,6 +399,11 @@
                         currentTableBody.innerHTML = newTableBody.innerHTML;
                         // Reattach event listeners to the new buttons
                         reattachEventListeners();
+                        // Play sound and vibrate ONLY if new items added (not removed)
+                        if (newRows.length > currentRows.length) {
+                            tocarSomNovoProduto();
+                            vibrarNovoProduto();
+                        }
                     }
                 }
 
@@ -387,6 +416,11 @@
 
                     if (newCards.length !== currentCards.length) {
                         currentMobileCards.innerHTML = newMobileCards.innerHTML;
+                        // Play sound and vibrate ONLY if new items added (not removed)
+                        if (newCards.length > currentCards.length) {
+                            tocarSomNovoProduto();
+                            vibrarNovoProduto();
+                        }
                     }
                 }
             })
@@ -405,6 +439,8 @@
     document.addEventListener("DOMContentLoaded", function() {
         var soundToggle = document.getElementById("soundToggle");
         var soundIcon = document.getElementById("soundIcon");
+        var vibrationToggle = document.getElementById("vibrationToggle");
+        var vibrationIcon = document.getElementById("vibrationIcon");
 
         if (soundToggle && soundIcon) {
             // Check localStorage for saved state, default to OFF (true = sem som)
@@ -418,6 +454,21 @@
                 semSom = !semSom;
                 localStorage.setItem("agenda_sem_som", semSom);
                 soundIcon.textContent = semSom ? "🔇" : "🔊";
+            });
+        }
+
+        if (vibrationToggle && vibrationIcon) {
+            // Check localStorage for saved state, default to OFF (true = sem vibracao)
+            var estadoVibracao = localStorage.getItem("agenda_sem_vibracao");
+            var semVibracao = (estadoVibracao === "true") || (estadoVibracao === null);
+
+            // Update icon based on state
+            vibrationIcon.textContent = semVibracao ? "📵" : "📳";
+
+            vibrationToggle.addEventListener("click", function() {
+                semVibracao = !semVibracao;
+                localStorage.setItem("agenda_sem_vibracao", semVibracao);
+                vibrationIcon.textContent = semVibracao ? "📵" : "📳";
             });
         }
 
@@ -435,6 +486,14 @@
             osc.connect(audioCtx.destination);
             osc.start();
             osc.stop(audioCtx.currentTime + 0.15);
+        }
+    }
+
+    function vibrarNovoProduto() {
+        var estadoVibracao = localStorage.getItem("agenda_sem_vibracao");
+        var semVibracao = estadoVibracao === "true";
+        if (!semVibracao && navigator.vibrate) {
+            navigator.vibrate([200, 100, 200]);
         }
     }
 
