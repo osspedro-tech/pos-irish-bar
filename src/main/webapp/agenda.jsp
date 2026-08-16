@@ -301,6 +301,41 @@
     updateTimeCounters();
     setInterval(updateTimeCounters, 1000);
 
+    // Auto-refresh da lista de produtos a cada 5 segundos
+    function atualizarLista() {
+        fetch('main')
+            .then(response => response.text())
+            .then(html => {
+                // Parse the HTML response to extract the table rows
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                var newTableBody = doc.querySelector('#tabela tbody');
+                var currentTableBody = document.querySelector('#tabela tbody');
+
+                if (newTableBody && currentTableBody) {
+                    currentTableBody.innerHTML = newTableBody.innerHTML;
+                    // Reattach event listeners to the new buttons
+                    reattachEventListeners();
+                }
+
+                // Also update mobile cards
+                var newMobileCards = doc.querySelector('.mobile-cards');
+                var currentMobileCards = document.querySelector('.mobile-cards');
+                if (newMobileCards && currentMobileCards) {
+                    currentMobileCards.innerHTML = newMobileCards.innerHTML;
+                }
+            })
+            .catch(error => console.error('Erro ao atualizar lista:', error));
+    }
+
+    function reattachEventListeners() {
+        // Re-initialize time counters for new elements
+        updateTimeCounters();
+    }
+
+    // Atualizar a cada 5 segundos
+    setInterval(atualizarLista, 5000);
+
     // Carrega e grava a opção do som no telemóvel
     document.addEventListener("DOMContentLoaded", function() {
         var soundToggle = document.getElementById("soundToggle");
