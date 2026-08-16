@@ -28,7 +28,8 @@ public class Controller extends HttpServlet {
     private static final String UPLOAD_DIR = "fotos";
 
     public Controller() {
-
+        // Initialize database tables on startup
+        dao.inicializarTabelas();
     }
 
     @Override
