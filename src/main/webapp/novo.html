@@ -215,8 +215,8 @@
                     <textarea name="descricao" placeholder="Descrição (opcional)" class="big-textarea" rows="3"></textarea>
                 </div>
                 <div class="form-item">
-                    <input type="file" name="foto" accept="image/*" capture="camera" id="fotoInput" style="display:none;">
-                    <button type="button" class="big-button" onclick="document.getElementById('fotoInput').click()">📷 Tirar Foto</button>
+                    <input type="file" name="foto" accept="image/*;capture=camera" id="fotoInput" style="display:none;">
+                    <button type="button" class="big-button" id="btnCamera">📷 Tirar Foto</button>
                     <span id="fileName" style="color: white; font-size: 20px; text-align: center;"></span>
                 </div>
                 <div class="form-item">
@@ -254,6 +254,26 @@
             if (e.target.files.length > 0) {
                 document.getElementById('fileName').textContent = e.target.files[0].name;
             }
+        });
+
+        // Handle camera button with multiple fallbacks
+        document.getElementById('btnCamera').addEventListener('click', function() {
+            var fotoInput = document.getElementById('fotoInput');
+
+            // Try different approaches for Android camera
+            fotoInput.removeAttribute('capture');
+            fotoInput.setAttribute('accept', 'image/*');
+
+            // Force click
+            fotoInput.click();
+
+            // If that doesn't work, try with capture attribute
+            setTimeout(function() {
+                if (fotoInput.files.length === 0) {
+                    fotoInput.setAttribute('capture', 'environment');
+                    fotoInput.click();
+                }
+            }, 100);
         });
 
         function searchGoogleImages() {
