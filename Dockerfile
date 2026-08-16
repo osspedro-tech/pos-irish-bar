@@ -16,9 +16,8 @@ RUN wget -q https://archive.apache.org/dist/tomcat/tomcat-10/v10.1.15/bin/apache
 # Copy WAR file to Tomcat webapps
 RUN cp target/POS.war tomcat/webapps/
 
-# Configure server.xml to set ROOT context to POS app
-RUN sed -i 's/<Host name="localhost"/<Host name="localhost" autoDeploy="true" deployOnStartup="true">/' tomcat/conf/server.xml && \
-    echo '<Context path="" docBase="POS" reloadable="true"/>' >> tomcat/conf/server.xml
+# Create index.html in ROOT to redirect to POS app
+RUN echo '<html><head><meta http-equiv="refresh" content="0;url=/POS/main"></head><body>Redirecting...</body></html>' > tomcat/webapps/ROOT/index.html
 
 EXPOSE 8080
 
