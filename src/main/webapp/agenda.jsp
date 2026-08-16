@@ -107,14 +107,14 @@
 
         #tabela td {
             border: 1px solid #ddd;
-            padding: 10px;
+            padding: 8px;
             font-size: 16px;
             vertical-align: middle;
         }
 
         #tabela img {
-            max-width: 150px;
-            height: 100px;
+            max-width: 120px;
+            height: 80px;
             object-fit: cover;
             border-radius: 8px;
         }
@@ -222,9 +222,8 @@
             <table id="tabela">
                 <thead>
                     <tr>
-                        <th>Nome</th>
-                        <th>Descrição</th>
                         <th>Foto</th>
+                        <th>Nome</th>
                         <th>Tempo</th>
                         <th>Opções</th>
                     </tr>
@@ -232,17 +231,17 @@
                 <tbody>
                 <%if (lista != null) {
                     for (int i = 0; i < lista.size(); i++){%>
-                    <tr>
-                        <td><%=lista.get(i).getNome()%></td>
-                        <td><%=lista.get(i).getDescricao()%></td>
+                    <tr id="row-<%=lista.get(i).getId()%>">
                         <td>
                             <% if(lista.get(i).getFoto() != null && !lista.get(i).getFoto().isEmpty()) { %>
                                 <img src="<%=lista.get(i).getFoto()%>"/>
                             <% } %>
                         </td>
+                        <td><%=lista.get(i).getNome()%></td>
                         <td class="time-counter" data-timestamp="<%=lista.get(i).getDataCriacao() != null ? lista.get(i).getDataCriacao().getTime() : ""%>">Carregando...</td>
                         <td>
-                            <a href="javascript: confirmar(<%=lista.get(i).getId() %>)" class="big-button big-button-red">Eliminar</a>
+                            <a href="javascript: marcarEliminar(<%=lista.get(i).getId() %>)" class="big-button big-button-red" id="btn-eliminar-<%=lista.get(i).getId()%>">Eliminar</a>
+                            <a href="javascript: cancelarEliminar(<%=lista.get(i).getId() %>)" class="big-button" id="btn-cancelar-<%=lista.get(i).getId()%>" style="display: none; background: #666; color: white;">Cancelar</a>
                         </td>
                     </tr>
                 <%  }
@@ -254,15 +253,15 @@
             <div class="mobile-cards" style="display:none;">
                 <%if (lista != null) {
                     for (int i = 0; i < lista.size(); i++){%>
-                    <div class="product-card">
+                    <div class="product-card" id="card-<%=lista.get(i).getId()%>">
                         <% if(lista.get(i).getFoto() != null && !lista.get(i).getFoto().isEmpty()) { %>
                             <img src="<%=lista.get(i).getFoto()%>"/>
                         <% } %>
                         <h3><%=lista.get(i).getNome()%></h3>
-                        <p><%=lista.get(i).getDescricao()%></p>
-                        <div class="time-counter" data-timestamp="<%=lista.get(i).getDataCriacao() != null ? lista.get(i).getDataCriacao().getTime() : ""%>" style="font-weight:bold; padding:10px; border-radius:8px; text-align:center; margin:15px 0; background:white; color:#006B3F;">Carregando...</div>
+                        <div class="time-counter" data-timestamp="<%=lista.get(i).getDataCriacao() != null ? lista.get(i).getDataCriacao().getTime() : ""%>" style="font-weight:bold; padding:5px; border-radius:8px; text-align:center; margin:5px 0; background:white; color:#006B3F;">Carregando...</div>
                         <div class="buttons">
-                            <a href="javascript: confirmar(<%=lista.get(i).getId() %>)" class="big-button big-button-red">Eliminar</a>
+                            <a href="javascript: marcarEliminarMobile(<%=lista.get(i).getId() %>)" class="big-button big-button-red" id="btn-eliminar-mobile-<%=lista.get(i).getId()%>">Eliminar</a>
+                            <a href="javascript: cancelarEliminarMobile(<%=lista.get(i).getId() %>)" class="big-button" id="btn-cancelar-mobile-<%=lista.get(i).getId()%>" style="display: none; background: #666; color: white;">Cancelar</a>
                         </div>
                     </div>
                 <%  }
@@ -280,10 +279,21 @@
             var timestamp = counter.getAttribute('data-timestamp');
             if (timestamp) {
                 var diff = now - timestamp;
-                var minutes = Math.floor(diff / (1000 * 60));
-                var seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                var seconds = Math.floor((diff / 1000) % 60);
+                var minutes = Math.floor((diff / (1000 * 60)) % 60);
+                var hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                var days = Math.floor(diff / (1000 * 60 * 60 * 24));
 
-                counter.textContent = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+                var timeText = '';
+                if (days > 0) {
+                    timeText = days + 'd ' + hours + 'h ' + minutes + 'm';
+                } else if (hours > 0) {
+                    timeText = hours + 'h ' + minutes + 'm ' + seconds + 's';
+                } else {
+                    timeText = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+                }
+
+                counter.textContent = timeText;
             }
         });
     }
@@ -325,6 +335,62 @@
             osc.start();
             osc.stop(audioCtx.currentTime + 0.15);
         }
+    }
+
+    function marcarEliminar(id) {
+        var row = document.getElementById('row-' + id);
+        var btnEliminar = document.getElementById('btn-eliminar-' + id);
+        var btnCancelar = document.getElementById('btn-cancelar-' + id);
+
+        row.style.textDecoration = 'line-through';
+        row.style.opacity = '0.5';
+        btnEliminar.style.display = 'none';
+        btnCancelar.style.display = 'inline-block';
+    }
+
+    function cancelarEliminar(id) {
+        var row = document.getElementById('row-' + id);
+        var btnEliminar = document.getElementById('btn-eliminar-' + id);
+        var btnCancelar = document.getElementById('btn-cancelar-' + id);
+
+        row.style.textDecoration = 'none';
+        row.style.opacity = '1';
+        btnEliminar.style.display = 'inline-block';
+        btnCancelar.style.display = 'none';
+    }
+
+    function confirmar(id) {
+        // Check if row is marked for deletion
+        var row = document.getElementById('row-' + id);
+        if (row.style.textDecoration === 'line-through') {
+            // Proceed with actual deletion
+            window.location.href = 'delete?id=' + id;
+        } else {
+            // First phase - mark for deletion
+            marcarEliminar(id);
+        }
+    }
+
+    function marcarEliminarMobile(id) {
+        var card = document.getElementById('card-' + id);
+        var btnEliminar = document.getElementById('btn-eliminar-mobile-' + id);
+        var btnCancelar = document.getElementById('btn-cancelar-mobile-' + id);
+
+        card.style.textDecoration = 'line-through';
+        card.style.opacity = '0.5';
+        btnEliminar.style.display = 'none';
+        btnCancelar.style.display = 'inline-block';
+    }
+
+    function cancelarEliminarMobile(id) {
+        var card = document.getElementById('card-' + id);
+        var btnEliminar = document.getElementById('btn-eliminar-mobile-' + id);
+        var btnCancelar = document.getElementById('btn-cancelar-mobile-' + id);
+
+        card.style.textDecoration = 'none';
+        card.style.opacity = '1';
+        btnEliminar.style.display = 'inline-block';
+        btnCancelar.style.display = 'none';
     }
 </script>
 </body>
