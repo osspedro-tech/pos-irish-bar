@@ -204,7 +204,7 @@
     <div class="fullscreen-container">
         <h1 class="title">Nova Falta</h1>
         <div style="margin-bottom: 15px; display: flex; justify-content: center;">
-            <a href="main" class="big-button" style="padding: 10px 20px; font-size: 16px;">← Voltar às Faltas</a>
+            <a href="main" class="big-button" id="btnVoltar" style="padding: 10px 20px; font-size: 16px;">← Voltar às Faltas</a>
         </div>
         <div class="form-container">
             <form name="frmProduto" action="insert" method="post" enctype="multipart/form-data">
@@ -215,7 +215,7 @@
                     <textarea name="descricao" placeholder="Descrição (opcional)" class="big-textarea" rows="3"></textarea>
                 </div>
                 <div class="form-item">
-                    <input type="file" name="foto" accept="image/*" id="fotoInput" style="display:none;">
+                    <input type="file" name="foto" accept="image/*" capture="camera" id="fotoInput" style="display:none;">
                     <button type="button" class="big-button" onclick="document.getElementById('fotoInput').click()">📷 Tirar Foto</button>
                     <span id="fileName" style="color: white; font-size: 20px; text-align: center;"></span>
                 </div>
@@ -296,6 +296,30 @@
                 if (percentage >= 100) {
                     percentage = 100;
                     clearInterval(interval);
+                }
+                loadingPercentage.textContent = percentage + '%';
+            }, 200);
+        });
+
+        // Handle voltar button with loading animation
+        document.getElementById('btnVoltar').addEventListener('click', function(e) {
+            e.preventDefault();
+            var loadingOverlay = document.getElementById('loadingOverlay');
+            var loadingPercentage = document.getElementById('loadingPercentage');
+            var loadingText = document.querySelector('.loading-text');
+            var percentage = 0;
+
+            loadingText.textContent = 'A voltar às faltas...';
+            loadingOverlay.classList.add('active');
+
+            // Simulate loading percentage
+            var interval = setInterval(function() {
+                percentage += Math.floor(Math.random() * 15) + 5;
+                if (percentage >= 100) {
+                    percentage = 100;
+                    clearInterval(interval);
+                    // Navigate after loading completes
+                    window.location.href = 'main';
                 }
                 loadingPercentage.textContent = percentage + '%';
             }, 200);
