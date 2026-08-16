@@ -13,8 +13,8 @@ RUN wget -q https://archive.apache.org/dist/tomcat/tomcat-10/v10.1.15/bin/apache
     mv apache-tomcat-10.1.15 tomcat && \
     rm apache-tomcat-10.1.15.tar.gz
 
-# Copy WAR file to Tomcat webapps
-RUN cp target/POS.war tomcat/webapps/
+# Copy WAR file to Tomcat webapps as ROOT to access at root path
+RUN cp target/POS.war tomcat/webapps/ROOT.war
 
 EXPOSE 8080
 
