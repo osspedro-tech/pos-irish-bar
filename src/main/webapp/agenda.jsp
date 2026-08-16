@@ -407,9 +407,12 @@
         var soundIcon = document.getElementById("soundIcon");
 
         if (soundToggle && soundIcon) {
-            // Always start with sound OFF by default
-            var semSom = true;
-            soundIcon.textContent = "🔇";
+            // Check localStorage for saved state, default to OFF (true = sem som)
+            var estadoGuardado = localStorage.getItem("agenda_sem_som");
+            var semSom = (estadoGuardado === "true") || (estadoGuardado === null);
+
+            // Update icon based on state
+            soundIcon.textContent = semSom ? "🔇" : "🔊";
 
             soundToggle.addEventListener("click", function() {
                 semSom = !semSom;
