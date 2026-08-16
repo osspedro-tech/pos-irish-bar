@@ -52,6 +52,26 @@
             font-size: 28px;
         }
 
+        .no-photo .photo-cell {
+            display: none;
+        }
+
+        .no-photo td:first-child {
+            display: none;
+        }
+
+        .product-card.no-photo img {
+            display: none;
+        }
+
+        .product-card.no-photo {
+            padding: 10px;
+        }
+
+        .product-card.no-photo h3 {
+            margin: 5px 0;
+        }
+
         .content-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -231,8 +251,8 @@
                 <tbody>
                 <%if (lista != null) {
                     for (int i = 0; i < lista.size(); i++){%>
-                    <tr id="row-<%=lista.get(i).getId()%>">
-                        <td>
+                    <tr id="row-<%=lista.get(i).getId()%>" class="<%= (lista.get(i).getFoto() != null && !lista.get(i).getFoto().isEmpty()) ? "" : "no-photo" %>">
+                        <td class="photo-cell">
                             <% if(lista.get(i).getFoto() != null && !lista.get(i).getFoto().isEmpty()) { %>
                                 <img src="<%=lista.get(i).getFoto()%>"/>
                             <% } %>
@@ -253,7 +273,7 @@
             <div class="mobile-cards" style="display:none;">
                 <%if (lista != null) {
                     for (int i = 0; i < lista.size(); i++){%>
-                    <div class="product-card" id="card-<%=lista.get(i).getId()%>">
+                    <div class="product-card <%= (lista.get(i).getFoto() != null && !lista.get(i).getFoto().isEmpty()) ? "" : "no-photo" %>" id="card-<%=lista.get(i).getId()%>">
                         <% if(lista.get(i).getFoto() != null && !lista.get(i).getFoto().isEmpty()) { %>
                             <img src="<%=lista.get(i).getFoto()%>"/>
                         <% } %>
