@@ -22,6 +22,10 @@ public class DAO {
             String dbUrl = System.getenv("DATABASE_URL");
             if (dbUrl != null && !dbUrl.isEmpty()) {
                 // PostgreSQL for Render.com
+                // Add jdbc: prefix if missing
+                if (!dbUrl.startsWith("jdbc:")) {
+                    dbUrl = "jdbc:" + dbUrl;
+                }
                 Class.forName("org.postgresql.Driver");
                 con = DriverManager.getConnection(dbUrl);
             } else {
