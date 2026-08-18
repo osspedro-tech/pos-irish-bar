@@ -179,8 +179,8 @@
 
         #tabela td {
             border: 1px solid #ddd;
-            padding: 12px;
-            font-size: 20px;
+            padding: 8px;
+            font-size: 16px;
             vertical-align: middle;
         }
 
