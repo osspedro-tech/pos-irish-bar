@@ -244,12 +244,13 @@
             .product-card {
                 background: white;
                 border-radius: 15px;
-                padding: 10px;
+                padding: 15px;
                 box-shadow: 0 8px 16px rgba(0,0,0,0.2);
                 display: flex;
                 flex-direction: row;
                 align-items: center;
-                gap: 10px;
+                gap: 15px;
+                justify-content: space-between;
             }
 
             .product-card img {
