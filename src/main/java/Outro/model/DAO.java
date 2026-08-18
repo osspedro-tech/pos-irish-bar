@@ -27,14 +27,27 @@ public class DAO {
                 // JDBC: jdbc:postgresql://host:port/db?user=user&password=pass
                 String jdbcUrl = dbUrl.replace("postgresql://", "jdbc:postgresql://");
                 // Parse URL to extract credentials and build proper JDBC URL
-                java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("jdbc:postgresql://([^:]+):([^@]+)@([^/]+)/(.+)");
+                // Render: postgresql://user:pass@host:port/db
+                java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("jdbc:postgresql://([^:]+):([^@]+)@([^:]+):(\\d+)/(.+)");
                 java.util.regex.Matcher matcher = pattern.matcher(jdbcUrl);
                 if (matcher.find()) {
                     String username = matcher.group(1);
                     String password = matcher.group(2);
                     String host = matcher.group(3);
-                    String database = matcher.group(4);
-                    jdbcUrl = "jdbc:postgresql://" + host + "/" + database + "?user=" + username + "&password=" + password + "&sslmode=require";
+                    String port = matcher.group(4);
+                    String database = matcher.group(5);
+                    jdbcUrl = "jdbc:postgresql://" + host + ":" + port + "/" + database + "?user=" + username + "&password=" + password + "&sslmode=require";
+                } else {
+                    // Try without port
+                    pattern = java.util.regex.Pattern.compile("jdbc:postgresql://([^:]+):([^@]+)@([^/]+)/(.+)");
+                    matcher = pattern.matcher(jdbcUrl);
+                    if (matcher.find()) {
+                        String username = matcher.group(1);
+                        String password = matcher.group(2);
+                        String host = matcher.group(3);
+                        String database = matcher.group(4);
+                        jdbcUrl = "jdbc:postgresql://" + host + "/" + database + "?user=" + username + "&password=" + password + "&sslmode=require";
+                    }
                 }
                 System.out.println("JDBC URL: " + jdbcUrl);
                 Class.forName("org.postgresql.Driver");
