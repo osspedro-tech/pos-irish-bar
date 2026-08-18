@@ -21,37 +21,11 @@ public class DAO {
             // Check if using Render.com (PostgreSQL) or local (MySQL)
             String dbUrl = System.getenv("DATABASE_URL");
             if (dbUrl != null && !dbUrl.isEmpty()) {
-                // PostgreSQL for Render.com
-                // Convert Render.com URL format to JDBC format
-                // Render: postgresql://user:pass@host:port/db
-                // JDBC: jdbc:postgresql://host:port/db?user=user&password=pass
-                String jdbcUrl = dbUrl.replace("postgresql://", "jdbc:postgresql://");
-                // Parse URL to extract credentials and build proper JDBC URL
-                // Render: postgresql://user:pass@host:port/db
-                java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("jdbc:postgresql://([^:]+):([^@]+)@([^:]+):(\\d+)/(.+)");
-                java.util.regex.Matcher matcher = pattern.matcher(jdbcUrl);
-                if (matcher.find()) {
-                    String username = matcher.group(1);
-                    String password = matcher.group(2);
-                    String host = matcher.group(3);
-                    String port = matcher.group(4);
-                    String database = matcher.group(5);
-                    jdbcUrl = "jdbc:postgresql://" + host + ":" + port + "/" + database + "?user=" + username + "&password=" + password + "&sslmode=require";
-                } else {
-                    // Try without port
-                    pattern = java.util.regex.Pattern.compile("jdbc:postgresql://([^:]+):([^@]+)@([^/]+)/(.+)");
-                    matcher = pattern.matcher(jdbcUrl);
-                    if (matcher.find()) {
-                        String username = matcher.group(1);
-                        String password = matcher.group(2);
-                        String host = matcher.group(3);
-                        String database = matcher.group(4);
-                        jdbcUrl = "jdbc:postgresql://" + host + "/" + database + "?user=" + username + "&password=" + password + "&sslmode=require";
-                    }
-                }
-                System.out.println("JDBC URL: " + jdbcUrl);
+                // PostgreSQL for Render.com/Supabase
+                // Direct connection with SSL
+                System.out.println("DATABASE_URL: " + dbUrl);
                 Class.forName("org.postgresql.Driver");
-                con = DriverManager.getConnection(jdbcUrl);
+                con = DriverManager.getConnection(dbUrl);
             } else {
                 // MySQL for local development
                 Class.forName(driver);
