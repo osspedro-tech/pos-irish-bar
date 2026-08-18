@@ -22,8 +22,18 @@ public class DAO {
             String dbUrl = System.getenv("DATABASE_URL");
             if (dbUrl != null && !dbUrl.isEmpty()) {
                 // PostgreSQL for Render.com
-                // Add jdbc: prefix if missing
-                if (!dbUrl.startsWith("jdbc:")) {
+                // Convert postgresql://user:pass@host/db to jdbc:postgresql://host:5432/db?user=user&password=pass
+                if (dbUrl.startsWith("postgresql://")) {
+                    java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("postgresql://([^:]+):([^@]+)@([^/]+)/(.+)");
+                    java.util.regex.Matcher matcher = pattern.matcher(dbUrl);
+                    if (matcher.find()) {
+                        String username = matcher.group(1);
+                        String password = matcher.group(2);
+                        String host = matcher.group(3);
+                        String database = matcher.group(4);
+                        dbUrl = "jdbc:postgresql://" + host + ":5432/" + database + "?user=" + username + "&password=" + password;
+                    }
+                } else if (!dbUrl.startsWith("jdbc:")) {
                     dbUrl = "jdbc:" + dbUrl;
                 }
                 Class.forName("org.postgresql.Driver");
