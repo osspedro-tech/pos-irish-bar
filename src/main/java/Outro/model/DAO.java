@@ -22,8 +22,19 @@ public class DAO {
             String dbUrl = System.getenv("DATABASE_URL");
             if (dbUrl != null && !dbUrl.isEmpty()) {
                 // PostgreSQL for Render.com/Supabase
-                // Add jdbc: prefix if missing
-                if (!dbUrl.startsWith("jdbc:")) {
+                // Convert postgresql://user:pass@host:port/db to jdbc:postgresql://host:port/db?user=user&password=pass
+                if (dbUrl.startsWith("postgresql://")) {
+                    java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("postgresql://([^:]+):([^@]+)@([^:]+):(\\d+)/(.+)");
+                    java.util.regex.Matcher matcher = pattern.matcher(dbUrl);
+                    if (matcher.find()) {
+                        String username = matcher.group(1);
+                        String password = matcher.group(2);
+                        String host = matcher.group(3);
+                        String port = matcher.group(4);
+                        String database = matcher.group(5);
+                        dbUrl = "jdbc:postgresql://" + host + ":" + port + "/" + database + "?user=" + username + "&password=" + password + "&sslmode=require";
+                    }
+                } else if (!dbUrl.startsWith("jdbc:")) {
                     dbUrl = "jdbc:" + dbUrl;
                 }
                 System.out.println("DATABASE_URL: " + dbUrl);
