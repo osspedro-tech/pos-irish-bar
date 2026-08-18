@@ -390,7 +390,7 @@
 
                 var timeText = '';
                 if (days > 0) {
-                    timeText = days + 'd ' + hours + 'h ' + minutes + 'm';
+                    timeText = days + 'd ' + hours + 'h';
                 } else if (hours > 0) {
                     timeText = hours + 'h ' + minutes + 'm';
                 } else if (minutes >= 1) {
