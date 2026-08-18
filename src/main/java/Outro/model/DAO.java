@@ -34,7 +34,7 @@ public class DAO {
                     String password = matcher.group(2);
                     String host = matcher.group(3);
                     String database = matcher.group(4);
-                    jdbcUrl = "jdbc:postgresql://" + host + "/" + database + "?user=" + username + "&password=" + password;
+                    jdbcUrl = "jdbc:postgresql://" + host + "/" + database + "?user=" + username + "&password=" + password + "&sslmode=require";
                 }
                 System.out.println("JDBC URL: " + jdbcUrl);
                 Class.forName("org.postgresql.Driver");
