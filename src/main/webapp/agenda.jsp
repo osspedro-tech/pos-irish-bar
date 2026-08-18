@@ -179,8 +179,8 @@
 
         #tabela td {
             border: 1px solid #ddd;
-            padding: 8px;
-            font-size: 16px;
+            padding: 12px;
+            font-size: 20px;
             vertical-align: middle;
         }
 
@@ -262,7 +262,7 @@
 
             .product-card h3 {
                 margin: 0;
-                font-size: 20px;
+                font-size: 24px;
                 color: #667eea;
                 flex: 1;
             }
