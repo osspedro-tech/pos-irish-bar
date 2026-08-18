@@ -254,8 +254,8 @@
             }
 
             .product-card img {
-                max-width: 80px;
-                height: 60px;
+                max-width: 60px;
+                height: 45px;
                 object-fit: cover;
                 border-radius: 8px;
                 margin: 0;
@@ -265,7 +265,7 @@
                 margin: 0;
                 font-size: 24px;
                 color: #667eea;
-                flex: 1;
+                flex: 2;
             }
 
             .product-card p {
