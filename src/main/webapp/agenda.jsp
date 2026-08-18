@@ -189,6 +189,32 @@
             height: 80px;
             object-fit: cover;
             border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        #tabela img:hover {
+            transform: scale(1.1);
+        }
+
+        .fullscreen-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            cursor: pointer;
+        }
+
+        .fullscreen-overlay img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
         }
 
         @media (max-width: 768px) {
@@ -309,7 +335,7 @@
                     <tr id="row-<%=lista.get(i).getId()%>" class="<%= (lista.get(i).getFoto() != null && !lista.get(i).getFoto().isEmpty()) ? "" : "no-photo" %>">
                         <td class="photo-cell">
                             <% if(lista.get(i).getFoto() != null && !lista.get(i).getFoto().isEmpty()) { %>
-                                <img src="<%=lista.get(i).getFoto()%>"/>
+                                <img src="<%=lista.get(i).getFoto()%>" onclick="openFullscreen('<%=lista.get(i).getFoto()%>')"/>
                             <% } %>
                         </td>
                         <td><%=lista.get(i).getNome()%></td>
@@ -330,7 +356,7 @@
                     for (int i = 0; i < lista.size(); i++){%>
                     <div class="product-card <%= (lista.get(i).getFoto() != null && !lista.get(i).getFoto().isEmpty()) ? "" : "no-photo" %>" id="card-<%=lista.get(i).getId()%>">
                         <% if(lista.get(i).getFoto() != null && !lista.get(i).getFoto().isEmpty()) { %>
-                            <img src="<%=lista.get(i).getFoto()%>"/>
+                            <img src="<%=lista.get(i).getFoto()%>" onclick="openFullscreen('<%=lista.get(i).getFoto()%>')"/>
                         <% } %>
                         <h3><%=lista.get(i).getNome()%></h3>
                         <div class="time-counter" data-timestamp="<%=lista.get(i).getDataCriacao() != null ? lista.get(i).getDataCriacao().getTime() : ""%>" style="font-weight:bold; padding:5px; border-radius:8px; text-align:center; margin:5px 0; background:white; color:#006B3F;">Carregando...</div>
@@ -343,6 +369,9 @@
                 }%>
             </div>
         </div>
+    </div>
+    <div class="fullscreen-overlay" id="fullscreenOverlay" onclick="closeFullscreen()">
+        <img id="fullscreenImage" src="">
     </div>
 <script src="scripts/confirmador.js"></script>
 <script>
@@ -560,6 +589,17 @@
         } else {
             marcarEliminarMobile(id);
         }
+    }
+
+    function openFullscreen(src) {
+        var overlay = document.getElementById('fullscreenOverlay');
+        var img = document.getElementById('fullscreenImage');
+        img.src = src;
+        overlay.style.display = 'flex';
+    }
+
+    function closeFullscreen() {
+        document.getElementById('fullscreenOverlay').style.display = 'none';
     }
 </script>
 </body>
