@@ -262,7 +262,7 @@
 
             .product-card h3 {
                 margin: 0;
-                font-size: 16px;
+                font-size: 20px;
                 color: #667eea;
                 flex: 1;
             }
@@ -280,8 +280,8 @@
             }
 
             .product-card .time-counter {
-                font-size: 12px !important;
-                padding: 3px 8px !important;
+                font-size: 14px !important;
+                padding: 4px 10px !important;
                 margin: 0 !important;
             }
 
@@ -292,8 +292,21 @@
             }
 
             .product-card .buttons a {
-                padding: 6px 12px !important;
-                font-size: 12px !important;
+                padding: 8px 15px !important;
+                font-size: 14px !important;
+            }
+
+            .photo-indicator {
+                font-size: 20px;
+                cursor: pointer;
+                padding: 5px;
+                background: rgba(102, 126, 234, 0.1);
+                border-radius: 50%;
+                transition: background 0.2s;
+            }
+
+            .photo-indicator:hover {
+                background: rgba(102, 126, 234, 0.3);
             }
         }
     </style>
@@ -352,6 +365,9 @@
                             <img src="<%=lista.get(i).getFoto()%>" onclick="openFullscreen('<%=lista.get(i).getFoto()%>')"/>
                         <% } %>
                         <h3><%=lista.get(i).getNome()%></h3>
+                        <% if(lista.get(i).getFoto() != null && !lista.get(i).getFoto().isEmpty()) { %>
+                            <span class="photo-indicator" onclick="openFullscreen('<%=lista.get(i).getFoto()%>')">📷</span>
+                        <% } %>
                         <div class="time-counter" data-timestamp="<%=lista.get(i).getDataCriacao() != null ? lista.get(i).getDataCriacao().getTime() : ""%>" style="font-weight:bold; padding:5px; border-radius:8px; text-align:center; margin:5px 0; background:white; color:#006B3F;">Carregando...</div>
                         <div class="buttons">
                             <a href="javascript: confirmarMobile(<%=lista.get(i).getId() %>)" class="big-button big-button-red" id="btn-eliminar-mobile-<%=lista.get(i).getId()%>">Eliminar</a>
