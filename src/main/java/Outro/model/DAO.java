@@ -22,7 +22,10 @@ public class DAO {
             String dbUrl = System.getenv("DATABASE_URL");
             if (dbUrl != null && !dbUrl.isEmpty()) {
                 // PostgreSQL for Render.com/Supabase
-                // Direct connection with SSL
+                // Add jdbc: prefix if missing
+                if (!dbUrl.startsWith("jdbc:")) {
+                    dbUrl = "jdbc:" + dbUrl;
+                }
                 System.out.println("DATABASE_URL: " + dbUrl);
                 Class.forName("org.postgresql.Driver");
                 con = DriverManager.getConnection(dbUrl);
