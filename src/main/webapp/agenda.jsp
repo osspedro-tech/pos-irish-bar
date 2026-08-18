@@ -244,63 +244,56 @@
             .product-card {
                 background: white;
                 border-radius: 15px;
-                padding: 15px;
+                padding: 10px;
                 box-shadow: 0 8px 16px rgba(0,0,0,0.2);
                 display: flex;
-                flex-direction: column;
+                flex-direction: row;
                 align-items: center;
+                gap: 10px;
             }
 
             .product-card img {
-                max-width: 100%;
-                height: 200px;
+                max-width: 80px;
+                height: 60px;
                 object-fit: cover;
-                border-radius: 10px;
-                margin-bottom: 10px;
+                border-radius: 8px;
+                margin: 0;
             }
 
             .product-card h3 {
-                margin: 0 0 5px 0;
-                font-size: 20px;
+                margin: 0;
+                font-size: 16px;
                 color: #667eea;
-                text-align: center;
+                flex: 1;
             }
 
             .product-card p {
-                margin: 2px 0;
-                font-size: 14px;
-                text-align: center;
+                margin: 0;
+                font-size: 12px;
             }
 
             .product-card .status {
                 font-weight: bold;
-                padding: 5px;
-                border-radius: 8px;
-                text-align: center;
-                margin: 10px 0;
-                font-size: 14px;
+                padding: 3px 8px;
+                border-radius: 6px;
+                font-size: 12px;
             }
 
-            .product-card .status.pendente {
-                background: #ff6b6b;
-                color: white;
-            }
-
-            .product-card .status.concluido {
-                background: #4ecdc4;
-                color: white;
+            .product-card .time-counter {
+                font-size: 12px !important;
+                padding: 3px 8px !important;
+                margin: 0 !important;
             }
 
             .product-card .buttons {
                 display: flex;
                 flex-direction: column;
-                gap: 10px;
-                margin-top: 15px;
+                gap: 5px;
             }
 
             .product-card .buttons a {
-                width: 100%;
-                box-sizing: border-box;
+                padding: 6px 12px !important;
+                font-size: 12px !important;
             }
         }
     </style>
