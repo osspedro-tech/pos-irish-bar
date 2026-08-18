@@ -479,17 +479,17 @@
         var vibrationIcon = document.getElementById("vibrationIcon");
 
         if (soundToggle && soundIcon) {
-            // Check localStorage for saved state, default to OFF (true = sem som)
-            var estadoGuardado = localStorage.getItem("agenda_sem_som");
-            var semSom = (estadoGuardado === "true") || (estadoGuardado === null);
+            // Check localStorage for saved state, default to ON (false = com som)
+            var estadoGuardado = localStorage.getItem("agenda_som_on");
+            var somOn = (estadoGuardado !== "false"); // Default to ON
 
             // Update icon based on state
-            soundIcon.textContent = semSom ? "🔇" : "🔊";
+            soundIcon.textContent = somOn ? "🔊" : "🔇";
 
             soundToggle.addEventListener("click", function() {
-                semSom = !semSom;
-                localStorage.setItem("agenda_sem_som", semSom);
-                soundIcon.textContent = semSom ? "🔇" : "🔊";
+                somOn = !somOn;
+                localStorage.setItem("agenda_som_on", somOn);
+                soundIcon.textContent = somOn ? "🔊" : "🔇";
             });
         }
 
@@ -508,13 +508,14 @@
             });
         }
 
-        tocarSomNovoProduto();
+        // Remove the initial sound on page load
+        // tocarSomNovoProduto();
     });
 
     function tocarSomNovoProduto() {
-        var estadoGuardado = localStorage.getItem("agenda_sem_som");
-        var semSom = estadoGuardado === "true";
-        if (!semSom) {
+        var estadoGuardado = localStorage.getItem("agenda_som_on");
+        var somOn = estadoGuardado !== "false"; // Default to ON
+        if (somOn) {
             var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             var osc = audioCtx.createOscillator();
             osc.type = "sine";
