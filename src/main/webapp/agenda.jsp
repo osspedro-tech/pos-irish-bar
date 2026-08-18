@@ -361,12 +361,9 @@
                 <%if (lista != null) {
                     for (int i = 0; i < lista.size(); i++){%>
                     <div class="product-card <%= (lista.get(i).getFoto() != null && !lista.get(i).getFoto().isEmpty()) ? "" : "no-photo" %>" id="card-<%=lista.get(i).getId()%>">
-                        <% if(lista.get(i).getFoto() != null && !lista.get(i).getFoto().isEmpty()) { %>
-                            <img src="<%=lista.get(i).getFoto()%>" onclick="openFullscreen('<%=lista.get(i).getFoto()%>')"/>
-                        <% } %>
                         <h3><%=lista.get(i).getNome()%></h3>
                         <% if(lista.get(i).getFoto() != null && !lista.get(i).getFoto().isEmpty()) { %>
-                            <span class="photo-indicator" onclick="openFullscreen('<%=lista.get(i).getFoto()%>')">📷</span>
+                            <img src="<%=lista.get(i).getFoto()%>" onclick="openFullscreen('<%=lista.get(i).getFoto()%>')"/>
                         <% } %>
                         <div class="time-counter" data-timestamp="<%=lista.get(i).getDataCriacao() != null ? lista.get(i).getDataCriacao().getTime() : ""%>" style="font-weight:bold; padding:5px; border-radius:8px; text-align:center; margin:5px 0; background:white; color:#006B3F;">Carregando...</div>
                         <div class="buttons">
