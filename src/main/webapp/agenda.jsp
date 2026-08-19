@@ -478,6 +478,11 @@
         var vibrationToggle = document.getElementById("vibrationToggle");
         var vibrationIcon = document.getElementById("vibrationIcon");
 
+        // Request notification permission for background sound
+        if ("Notification" in window && Notification.permission === "default") {
+            Notification.requestPermission();
+        }
+
         if (soundToggle && soundIcon) {
             // Check localStorage for saved state, default to ON (false = com som)
             var estadoGuardado = localStorage.getItem("agenda_som_on");
@@ -490,6 +495,11 @@
                 somOn = !somOn;
                 localStorage.setItem("agenda_som_on", somOn);
                 soundIcon.textContent = somOn ? "🔊" : "🔇";
+                
+                // Request notification permission when enabling sound
+                if (somOn && "Notification" in window && Notification.permission === "default") {
+                    Notification.requestPermission();
+                }
             });
         }
 
@@ -516,13 +526,28 @@
         var estadoGuardado = localStorage.getItem("agenda_som_on");
         var somOn = estadoGuardado !== "false"; // Default to ON
         if (somOn) {
-            var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            var osc = audioCtx.createOscillator();
-            osc.type = "sine";
-            osc.frequency.setValueAtTime(880, audioCtx.currentTime);
-            osc.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.15);
+            // Try notification for background/locked screen support
+            if ("Notification" in window && Notification.permission === "granted") {
+                var notification = new Notification("Nova Falta", {
+                    body: "Um novo item foi adicionado à lista",
+                    icon: "/images/favicon.jpg",
+                    silent: false
+                });
+                
+                // Auto-close notification after 3 seconds
+                setTimeout(function() {
+                    notification.close();
+                }, 3000);
+            } else {
+                // Fallback to Web Audio API for foreground
+                var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                var osc = audioCtx.createOscillator();
+                osc.type = "sine";
+                osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+                osc.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.15);
+            }
         }
     }
 

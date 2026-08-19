@@ -202,11 +202,7 @@
     </div>
 
     <div class="fullscreen-container">
-        <h1 class="title">Nova Falta
-            <div class="sound-toggle" id="soundToggle" style="display:inline-block; margin-left:15px; cursor:pointer;">
-                <span class="sound-icon" id="soundIcon">🔊</span>
-            </div>
-        </h1>
+        <h1 class="title">Nova Falta</h1>
         <div style="margin-bottom: 15px; display: flex; justify-content: center;">
             <a href="main" class="big-button" id="btnVoltar" style="padding: 10px 20px; font-size: 16px;">← Voltar às Faltas</a>
         </div>
@@ -347,27 +343,6 @@
                 }
                 loadingPercentage.textContent = percentage + '%';
             }, 200);
-        });
-
-        // Sound toggle logic - load and save state
-        document.addEventListener("DOMContentLoaded", function() {
-            var soundToggle = document.getElementById("soundToggle");
-            var soundIcon = document.getElementById("soundIcon");
-
-            if (soundToggle && soundIcon) {
-                // Check localStorage for saved state, default to ON (false = com som)
-                var estadoGuardado = localStorage.getItem("agenda_som_on");
-                var somOn = (estadoGuardado !== "false"); // Default to ON
-
-                // Update icon based on state
-                soundIcon.textContent = somOn ? "🔊" : "🔇";
-
-                soundToggle.addEventListener("click", function() {
-                    somOn = !somOn;
-                    localStorage.setItem("agenda_som_on", somOn);
-                    soundIcon.textContent = somOn ? "🔊" : "🔇";
-                });
-            }
         });
     </script>
 </body>
