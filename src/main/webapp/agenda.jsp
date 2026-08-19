@@ -180,7 +180,7 @@
         #tabela td {
             border: 1px solid #ddd;
             padding: 8px;
-            font-size: 16px;
+            font-size: 18px;
             vertical-align: middle;
         }
 
@@ -374,8 +374,8 @@
                         <td><%=lista.get(i).getNome()%></td>
                         <td class="time-counter" data-timestamp="<%=lista.get(i).getDataCriacao() != null ? lista.get(i).getDataCriacao().getTime() : ""%>">Carregando...</td>
                         <td>
-                            <a href="javascript: confirmar(<%=lista.get(i).getId() %>)" class="big-button big-button-red" id="btn-eliminar-<%=lista.get(i).getId()%>">Eliminar</a>
-                            <a href="javascript: cancelarEliminar(<%=lista.get(i).getId() %>)" class="big-button" id="btn-cancelar-<%=lista.get(i).getId()%>" style="display: none; background: #666; color: white;">Cancelar</a>
+                            <a href="javascript: confirmar(<%=lista.get(i).getId() %>)" class="big-button big-button-red" id="btn-eliminar-<%=lista.get(i).getId()%>" style="padding: 5px 10px; font-size: 14px;">X</a>
+                            <a href="javascript: cancelarEliminar(<%=lista.get(i).getId() %>)" class="big-button" id="btn-cancelar-<%=lista.get(i).getId()%>" style="display: none; background: #666; color: white; padding: 5px 10px; font-size: 14px;">Cancelar</a>
                         </td>
                     </tr>
                 <%  }
@@ -394,8 +394,8 @@
                         <% } %>
                         <div class="time-counter" data-timestamp="<%=lista.get(i).getDataCriacao() != null ? lista.get(i).getDataCriacao().getTime() : ""%>" style="font-weight:bold; padding:5px; border-radius:8px; text-align:center; margin:5px 0; background:white; color:#006B3F;">Carregando...</div>
                         <div class="buttons">
-                            <a href="javascript: confirmarMobile(<%=lista.get(i).getId() %>)" class="big-button big-button-red" id="btn-eliminar-mobile-<%=lista.get(i).getId()%>">Eliminar</a>
-                            <a href="javascript: cancelarEliminarMobile(<%=lista.get(i).getId() %>)" class="big-button" id="btn-cancelar-mobile-<%=lista.get(i).getId()%>" style="display: none; background: #666; color: white;">Cancelar</a>
+                            <a href="javascript: confirmarMobile(<%=lista.get(i).getId() %>)" class="big-button big-button-red" id="btn-eliminar-mobile-<%=lista.get(i).getId()%>" style="padding: 5px 10px; font-size: 14px;">X</a>
+                            <a href="javascript: cancelarEliminarMobile(<%=lista.get(i).getId() %>)" class="big-button" id="btn-cancelar-mobile-<%=lista.get(i).getId()%>" style="display: none; background: #666; color: white; padding: 5px 10px; font-size: 14px;">Cancelar</a>
                         </div>
                     </div>
                 <%  }
@@ -681,7 +681,7 @@
 
         row.style.textDecoration = 'line-through';
         row.style.opacity = '0.5';
-        btnEliminar.textContent = 'Eliminar definitivamente';
+        btnEliminar.textContent = '✓';
         btnCancelar.style.display = 'inline-block';
     }
 
@@ -692,7 +692,7 @@
 
         row.style.textDecoration = 'none';
         row.style.opacity = '1';
-        btnEliminar.textContent = 'Eliminar';
+        btnEliminar.textContent = 'X';
         btnCancelar.style.display = 'none';
     }
 
@@ -715,7 +715,7 @@
 
         card.style.textDecoration = 'line-through';
         card.style.opacity = '0.5';
-        btnEliminar.textContent = 'Eliminar definitivamente';
+        btnEliminar.textContent = '✓';
         btnCancelar.style.display = 'inline-block';
     }
 
@@ -726,7 +726,7 @@
 
         card.style.textDecoration = 'none';
         card.style.opacity = '1';
-        btnEliminar.textContent = 'Eliminar';
+        btnEliminar.textContent = 'X';
         btnCancelar.style.display = 'none';
     }
 
