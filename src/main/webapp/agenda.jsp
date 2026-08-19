@@ -345,6 +345,19 @@
                     <div style="text-align:center; margin-top:5px; color:#666;"><span id="vibrationValue">200</span>ms</div>
                 </div>
                 
+                <div style="margin-bottom:20px;">
+                    <h3 style="margin:0 0 10px 0; color:#667eea;">Vibração Periódica</h3>
+                    <label style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                        <input type="checkbox" id="periodicVibration" style="width:20px; height:20px;">
+                        <span style="font-size:16px;">Ativar vibração periódica</span>
+                    </label>
+                    <div id="periodicIntervalContainer" style="display:none;">
+                        <label style="font-size:14px; color:#666;">Intervalo (segundos):</label>
+                        <input type="range" id="periodicInterval" min="5" max="60" value="10" style="width:100%;">
+                        <div style="text-align:center; margin-top:5px; color:#666;"><span id="periodicIntervalValue">10</span>s</div>
+                    </div>
+                </div>
+                
                 <button onclick="closeSettingsModal()" style="width:100%; padding:15px; background:#006B3F; color:white; border:none; border-radius:10px; font-size:18px; cursor:pointer;">Fechar</button>
             </div>
         </div>
@@ -572,6 +585,20 @@
             document.getElementById("vibrationDuration").value = vibrationDuration;
             document.getElementById("vibrationValue").textContent = vibrationDuration;
 
+            // Load saved periodic vibration settings
+            var periodicVibrationEnabled = localStorage.getItem("agenda_periodic_vibration") === "true";
+            var periodicInterval = localStorage.getItem("agenda_periodic_interval") || "10";
+            
+            document.getElementById("periodicVibration").checked = periodicVibrationEnabled;
+            document.getElementById("periodicInterval").value = periodicInterval;
+            document.getElementById("periodicIntervalValue").textContent = periodicInterval;
+            document.getElementById("periodicIntervalContainer").style.display = periodicVibrationEnabled ? "block" : "none";
+
+            // Toggle periodic interval container
+            document.getElementById("periodicVibration").addEventListener("change", function() {
+                document.getElementById("periodicIntervalContainer").style.display = this.checked ? "block" : "none";
+            });
+
             // Long-press detection
             var pressTimerVib;
             vibrationToggle.addEventListener("mousedown", function() {
@@ -645,6 +672,9 @@
         if (!semVibracao && navigator.vibrate) {
             var vibrationDuration = parseInt(localStorage.getItem("agenda_vibration_duration") || "200");
             navigator.vibrate([vibrationDuration, 100, vibrationDuration]);
+            
+            // Start periodic vibration if enabled and page is hidden
+            startPeriodicVibration();
         }
     }
 
@@ -656,10 +686,16 @@
         // Save settings
         var soundType = document.getElementById("soundType").value;
         var vibrationDuration = document.getElementById("vibrationDuration").value;
+        var periodicVibrationEnabled = document.getElementById("periodicVibration").checked;
+        var periodicInterval = document.getElementById("periodicInterval").value;
         
         localStorage.setItem("agenda_sound_type", soundType);
         localStorage.setItem("agenda_vibration_duration", vibrationDuration);
+        localStorage.setItem("agenda_periodic_vibration", periodicVibrationEnabled);
+        localStorage.setItem("agenda_periodic_interval", periodicInterval);
+        
         document.getElementById("vibrationValue").textContent = vibrationDuration;
+        document.getElementById("periodicIntervalValue").textContent = periodicInterval;
         
         document.getElementById("settingsModal").style.display = "none";
     }
@@ -672,7 +708,51 @@
                 document.getElementById("vibrationValue").textContent = this.value;
             });
         }
+
+        var periodicIntervalSlider = document.getElementById("periodicInterval");
+        if (periodicIntervalSlider) {
+            periodicIntervalSlider.addEventListener("input", function() {
+                document.getElementById("periodicIntervalValue").textContent = this.value;
+            });
+        }
     });
+
+    // Page Visibility API for periodic vibration
+    var periodicVibrationTimer = null;
+    var hasNewItems = false;
+
+    document.addEventListener("visibilitychange", function() {
+        if (!document.hidden) {
+            // Page became visible - stop periodic vibration
+            if (periodicVibrationTimer) {
+                clearInterval(periodicVibrationTimer);
+                periodicVibrationTimer = null;
+            }
+            hasNewItems = false;
+        }
+    });
+
+    function startPeriodicVibration() {
+        var periodicVibrationEnabled = localStorage.getItem("agenda_periodic_vibration") === "true";
+        if (!periodicVibrationEnabled || document.hidden === false) {
+            return;
+        }
+
+        var periodicInterval = parseInt(localStorage.getItem("agenda_periodic_interval") || "10") * 1000;
+        var vibrationDuration = parseInt(localStorage.getItem("agenda_vibration_duration") || "200");
+
+        hasNewItems = true;
+        
+        if (periodicVibrationTimer) {
+            clearInterval(periodicVibrationTimer);
+        }
+
+        periodicVibrationTimer = setInterval(function() {
+            if (document.hidden && hasNewItems && navigator.vibrate) {
+                navigator.vibrate([vibrationDuration, 100, vibrationDuration]);
+            }
+        }, periodicInterval);
+    }
 
     function marcarEliminar(id) {
         var row = document.getElementById('row-' + id);
