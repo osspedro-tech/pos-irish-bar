@@ -323,6 +323,32 @@
                 <span class="vibration-icon" id="vibrationIcon">📳</span>
             </div>
         </h1>
+        
+        <!-- Settings Modal -->
+        <div id="settingsModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:10000; justify-content:center; align-items:center;">
+            <div style="background:white; padding:30px; border-radius:15px; max-width:400px; width:90%;">
+                <h2 style="margin:0 0 20px 0; color:#006B3F;">Configurações</h2>
+                
+                <div style="margin-bottom:20px;">
+                    <h3 style="margin:0 0 10px 0; color:#667eea;">Tipo de Som</h3>
+                    <select id="soundType" style="width:100%; padding:10px; font-size:16px; border-radius:8px; border:1px solid #ddd;">
+                        <option value="880">Agudo (880Hz)</option>
+                        <option value="440">Médio (440Hz)</option>
+                        <option value="220">Grave (220Hz)</option>
+                        <option value="1000">Muito Agudo (1000Hz)</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom:20px;">
+                    <h3 style="margin:0 0 10px 0; color:#667eea;">Tempo de Vibração (ms)</h3>
+                    <input type="range" id="vibrationDuration" min="100" max="1000" value="200" style="width:100%;">
+                    <div style="text-align:center; margin-top:5px; color:#666;"><span id="vibrationValue">200</span>ms</div>
+                </div>
+                
+                <button onclick="closeSettingsModal()" style="width:100%; padding:15px; background:#006B3F; color:white; border:none; border-radius:10px; font-size:18px; cursor:pointer;">Fechar</button>
+            </div>
+        </div>
+        
         <div class="content-container">
             <div style="text-align: center; margin-bottom: 15px;">
                 <a href="novo.html" class="big-button">➕ Nova Falta</a>
@@ -491,7 +517,37 @@
             // Update icon based on state
             soundIcon.textContent = somOn ? "🔊" : "🔇";
 
-            soundToggle.addEventListener("click", function() {
+            // Load saved sound type
+            var soundType = localStorage.getItem("agenda_sound_type") || "880";
+            document.getElementById("soundType").value = soundType;
+
+            // Long-press detection
+            var pressTimer;
+            soundToggle.addEventListener("mousedown", function() {
+                pressTimer = setTimeout(function() {
+                    openSettingsModal();
+                }, 1000);
+            });
+            soundToggle.addEventListener("touchstart", function() {
+                pressTimer = setTimeout(function() {
+                    openSettingsModal();
+                }, 1000);
+            });
+            soundToggle.addEventListener("mouseup", function() {
+                clearTimeout(pressTimer);
+            });
+            soundToggle.addEventListener("mouseleave", function() {
+                clearTimeout(pressTimer);
+            });
+            soundToggle.addEventListener("touchend", function() {
+                clearTimeout(pressTimer);
+            });
+
+            soundToggle.addEventListener("click", function(e) {
+                if (pressTimer) {
+                    clearTimeout(pressTimer);
+                    pressTimer = null;
+                }
                 somOn = !somOn;
                 localStorage.setItem("agenda_som_on", somOn);
                 soundIcon.textContent = somOn ? "🔊" : "🔇";
@@ -511,7 +567,38 @@
             // Update icon based on state
             vibrationIcon.textContent = semVibracao ? "📵" : "📳";
 
-            vibrationToggle.addEventListener("click", function() {
+            // Load saved vibration duration
+            var vibrationDuration = localStorage.getItem("agenda_vibration_duration") || "200";
+            document.getElementById("vibrationDuration").value = vibrationDuration;
+            document.getElementById("vibrationValue").textContent = vibrationDuration;
+
+            // Long-press detection
+            var pressTimerVib;
+            vibrationToggle.addEventListener("mousedown", function() {
+                pressTimerVib = setTimeout(function() {
+                    openSettingsModal();
+                }, 1000);
+            });
+            vibrationToggle.addEventListener("touchstart", function() {
+                pressTimerVib = setTimeout(function() {
+                    openSettingsModal();
+                }, 1000);
+            });
+            vibrationToggle.addEventListener("mouseup", function() {
+                clearTimeout(pressTimerVib);
+            });
+            vibrationToggle.addEventListener("mouseleave", function() {
+                clearTimeout(pressTimerVib);
+            });
+            vibrationToggle.addEventListener("touchend", function() {
+                clearTimeout(pressTimerVib);
+            });
+
+            vibrationToggle.addEventListener("click", function(e) {
+                if (pressTimerVib) {
+                    clearTimeout(pressTimerVib);
+                    pressTimerVib = null;
+                }
                 semVibracao = !semVibracao;
                 localStorage.setItem("agenda_sem_vibracao", semVibracao);
                 vibrationIcon.textContent = semVibracao ? "📵" : "📳";
@@ -543,7 +630,8 @@
                 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 var osc = audioCtx.createOscillator();
                 osc.type = "sine";
-                osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+                var soundType = localStorage.getItem("agenda_sound_type") || "880";
+                osc.frequency.setValueAtTime(parseInt(soundType), audioCtx.currentTime);
                 osc.connect(audioCtx.destination);
                 osc.start();
                 osc.stop(audioCtx.currentTime + 0.15);
@@ -555,9 +643,36 @@
         var estadoVibracao = localStorage.getItem("agenda_sem_vibracao");
         var semVibracao = estadoVibracao === "true";
         if (!semVibracao && navigator.vibrate) {
-            navigator.vibrate([200, 100, 200]);
+            var vibrationDuration = parseInt(localStorage.getItem("agenda_vibration_duration") || "200");
+            navigator.vibrate([vibrationDuration, 100, vibrationDuration]);
         }
     }
+
+    function openSettingsModal() {
+        document.getElementById("settingsModal").style.display = "flex";
+    }
+
+    function closeSettingsModal() {
+        // Save settings
+        var soundType = document.getElementById("soundType").value;
+        var vibrationDuration = document.getElementById("vibrationDuration").value;
+        
+        localStorage.setItem("agenda_sound_type", soundType);
+        localStorage.setItem("agenda_vibration_duration", vibrationDuration);
+        document.getElementById("vibrationValue").textContent = vibrationDuration;
+        
+        document.getElementById("settingsModal").style.display = "none";
+    }
+
+    // Update vibration value display when slider changes
+    document.addEventListener("DOMContentLoaded", function() {
+        var vibrationSlider = document.getElementById("vibrationDuration");
+        if (vibrationSlider) {
+            vibrationSlider.addEventListener("input", function() {
+                document.getElementById("vibrationValue").textContent = this.value;
+            });
+        }
+    });
 
     function marcarEliminar(id) {
         var row = document.getElementById('row-' + id);
