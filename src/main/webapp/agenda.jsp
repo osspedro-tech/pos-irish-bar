@@ -180,7 +180,7 @@
         #tabela td {
             border: 1px solid #ddd;
             padding: 8px;
-            font-size: 18px;
+            font-size: 22px;
             vertical-align: middle;
         }
 
@@ -387,8 +387,8 @@
                         <td><%=lista.get(i).getNome()%></td>
                         <td class="time-counter" data-timestamp="<%=lista.get(i).getDataCriacao() != null ? lista.get(i).getDataCriacao().getTime() : ""%>">Carregando...</td>
                         <td>
-                            <a href="javascript: confirmar(<%=lista.get(i).getId() %>)" class="big-button big-button-red" id="btn-eliminar-<%=lista.get(i).getId()%>" style="padding: 5px 10px; font-size: 14px;">X</a>
-                            <a href="javascript: cancelarEliminar(<%=lista.get(i).getId() %>)" class="big-button" id="btn-cancelar-<%=lista.get(i).getId()%>" style="display: none; background: #666; color: white; padding: 5px 10px; font-size: 14px;">Cancelar</a>
+                            <a href="javascript: confirmar(<%=lista.get(i).getId() %>)" class="big-button big-button-red" id="btn-eliminar-<%=lista.get(i).getId()%>" style="padding: 8px 15px; font-size: 18px;">X</a>
+                            <a href="javascript: cancelarEliminar(<%=lista.get(i).getId() %>)" class="big-button" id="btn-cancelar-<%=lista.get(i).getId()%>" style="display: none; background: #666; color: white; padding: 8px 15px; font-size: 18px;">Cancelar</a>
                         </td>
                     </tr>
                 <%  }
@@ -407,8 +407,8 @@
                         <% } %>
                         <div class="time-counter" data-timestamp="<%=lista.get(i).getDataCriacao() != null ? lista.get(i).getDataCriacao().getTime() : ""%>" style="font-weight:bold; padding:5px; border-radius:8px; text-align:center; margin:5px 0; background:white; color:#006B3F;">Carregando...</div>
                         <div class="buttons">
-                            <a href="javascript: confirmarMobile(<%=lista.get(i).getId() %>)" class="big-button big-button-red" id="btn-eliminar-mobile-<%=lista.get(i).getId()%>" style="padding: 5px 10px; font-size: 14px;">X</a>
-                            <a href="javascript: cancelarEliminarMobile(<%=lista.get(i).getId() %>)" class="big-button" id="btn-cancelar-mobile-<%=lista.get(i).getId()%>" style="display: none; background: #666; color: white; padding: 5px 10px; font-size: 14px;">Cancelar</a>
+                            <a href="javascript: confirmarMobile(<%=lista.get(i).getId() %>)" class="big-button big-button-red" id="btn-eliminar-mobile-<%=lista.get(i).getId()%>" style="padding: 8px 15px; font-size: 18px;">X</a>
+                            <a href="javascript: cancelarEliminarMobile(<%=lista.get(i).getId() %>)" class="big-button" id="btn-cancelar-mobile-<%=lista.get(i).getId()%>" style="display: none; background: #666; color: white; padding: 8px 15px; font-size: 18px;">Cancelar</a>
                         </div>
                     </div>
                 <%  }
@@ -780,6 +780,9 @@
         // Check if row is marked for deletion
         var row = document.getElementById('row-' + id);
         if (row.style.textDecoration === 'line-through') {
+            // Move row to bottom of table before deletion
+            var tbody = row.parentNode;
+            tbody.appendChild(row);
             // Proceed with actual deletion
             window.location.href = 'delete?id=' + id;
         } else {
@@ -813,6 +816,10 @@
     function confirmarMobile(id) {
         var card = document.getElementById('card-' + id);
         if (card.style.textDecoration === 'line-through') {
+            // Move card to bottom of list before deletion
+            var container = card.parentNode;
+            container.appendChild(card);
+            // Proceed with actual deletion
             window.location.href = 'delete?id=' + id;
         } else {
             marcarEliminarMobile(id);
